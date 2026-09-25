@@ -66,6 +66,8 @@ RUN apk add \
 RUN apk add \
     php84-apache2
 
+RUN apk add tailscale
+
 # Set the work dir to the git repo. 
 WORKDIR /var/www/localhost/htdocs
 
