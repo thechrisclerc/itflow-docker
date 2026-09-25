@@ -43,5 +43,13 @@ fi
 
 crond &
 
+# Start Tailscale
+if [ -n "$TS_AUTHKEY" ]; then
+  tailscaled --tun=userspace-networking --state=mem: --socket=/tmp/tailscaled.sock &
+  sleep 3
+  tailscale --socket=/tmp/tailscaled.sock up --authkey="$TS_AUTHKEY" --hostname=itflow --timeout=30s
+  tailscale --socket=/tmp/tailscaled.sock serve --bg "$ITFLOW_PORT"
+fi
+
 # Execute the command in the dockerfile's CMD
 exec "$@"
